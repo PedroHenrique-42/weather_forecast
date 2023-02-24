@@ -1,0 +1,39 @@
+name: weather_forecast
+description: Um projeto para previsão do tempo utilizando a OpenWeatherAPI
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.19.2 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  http: ^0.13.5
+  lottie: ^2.2.0
+  provider: ^6.0.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+# Flutter packages.
+flutter:
+  uses-material-design: true
+
+# Assets
+  assets:
+    - assets/images/search_image.png
+
+# Fonts
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700
