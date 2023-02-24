@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather_forecast/models/current_weather.dart';
 import 'package:weather_forecast/providers/weather_data_provider.dart';
-import 'package:weather_forecast/utils/show_dialog.dart';
+import 'package:weather_forecast/utils/show_snack_bar.dart';
 
 class SearchBar extends StatelessWidget {
   const SearchBar({Key? key}) : super(key: key);
@@ -11,8 +10,9 @@ class SearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController textFieldController = TextEditingController();
 
-    return SizedBox(
+    return Container(
       width: MediaQuery.of(context).size.width * 0.9,
+      margin: const EdgeInsets.only(top: 40, bottom: 40),
       child: TextField(
         onTap: () => textFieldController.text = "",
         controller: textFieldController,
@@ -27,10 +27,17 @@ class SearchBar extends StatelessWidget {
           ),
           suffixIcon: IconButton(
             onPressed: () {
+              String locationName = textFieldController.text;
+              if (locationName.isEmpty) {
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ShowSnackBar.show(context, "Preencha o campo acima");
+                return;
+              }
+
               Provider.of<WeatherDataProvider>(
                 context,
                 listen: false,
-              ).setLocationName(textFieldController.text);
+              ).setLocationName(locationName);
               FocusScope.of(context).unfocus();
             },
             icon: const Icon(Icons.search, color: Colors.black),

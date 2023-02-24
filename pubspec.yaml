@@ -29,6 +29,7 @@ flutter:
 # Assets
   assets:
     - assets/images/search_image.png
+    - assets/images/map.png
 
 # Fonts
   fonts:

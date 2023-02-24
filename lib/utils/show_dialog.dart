@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 
 class ShowDialog {
-  static const String alertDialogTitle = "Ocorreu um problema!";
+  static const String alertDialogTitle = "Local não encontrado";
 
-  static show(BuildContext context, Object error) {
+  static show(BuildContext context, String content) {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text(alertDialogTitle),
-        content: Text(error.toString()),
+        title: Text(
+          alertDialogTitle,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+        content: Text(content, textAlign: TextAlign.center),
         actionsAlignment: MainAxisAlignment.center,
         actions: [
           IconButton(
