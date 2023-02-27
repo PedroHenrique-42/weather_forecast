@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
-class CustomCard extends StatelessWidget {
+class CustomCardWidget extends StatelessWidget {
   final double? height;
   final double? width;
   final Widget child;
   final EdgeInsets? margin;
+  final EdgeInsets? padding;
 
-  const CustomCard({
+  const CustomCardWidget({
     Key? key,
     this.height,
     this.width,
     this.margin,
+    this.padding,
     required this.child,
   }) : super(key: key);
 
@@ -21,7 +23,7 @@ class CustomCard extends StatelessWidget {
       width: width,
       margin: margin,
       decoration: const BoxDecoration(
-        // borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
         color: Color.fromRGBO(233, 233, 233, 1),
         boxShadow: [
           BoxShadow(

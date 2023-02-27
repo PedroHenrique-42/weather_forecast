@@ -28,8 +28,14 @@ flutter:
 
 # Assets
   assets:
-    - assets/images/search_image.png
-    - assets/images/map.png
+    - assets/animations/clouds_animation.json
+    - assets/animations/mist_animation.json
+    - assets/animations/moon_animation.json
+    - assets/animations/not_found_animation.json
+    - assets/animations/rain_animation.json
+    - assets/animations/snow_animation.json
+    - assets/animations/sun_animation.json
+    - assets/animations/thunderstorm_animation.json
 
 # Fonts
   fonts:

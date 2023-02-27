@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ShowDialog {
-  static const String alertDialogTitle = "Local não encontrado";
+  static const String alertDialogTitle = "Ocorreu um problema";
 
   static show(BuildContext context, String content) {
     return showDialog(

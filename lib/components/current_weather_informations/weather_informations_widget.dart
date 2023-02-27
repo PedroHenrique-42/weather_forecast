@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
+import 'package:weather_forecast/components/current_weather_informations/additional_informations_widget.dart';
+import 'package:weather_forecast/components/current_weather_informations/basic_informations_widget.dart';
+import 'package:weather_forecast/components/custom_card_widget.dart';
 import 'package:weather_forecast/components/local_not_found_widget.dart';
-import 'package:weather_forecast/components/weather_informations/additional_informations_widget.dart';
-import 'package:weather_forecast/components/weather_informations/basic_informations_widget.dart';
 import 'package:weather_forecast/models/weather_model.dart';
 import 'package:weather_forecast/providers/weather_data_provider.dart';
 import 'package:weather_forecast/services/current_weather_api_service.dart';
@@ -13,7 +14,8 @@ class WeatherInformationsWidget extends StatefulWidget {
   const WeatherInformationsWidget({Key? key}) : super(key: key);
 
   @override
-  State<WeatherInformationsWidget> createState() => _WeatherInformationsWidgetState();
+  State<WeatherInformationsWidget> createState() =>
+      _WeatherInformationsWidgetState();
 }
 
 class _WeatherInformationsWidgetState extends State<WeatherInformationsWidget> {
@@ -36,12 +38,17 @@ class _WeatherInformationsWidgetState extends State<WeatherInformationsWidget> {
 
         if (weatherDataResult.connectionState == ConnectionState.done &&
             weatherData != null) {
-          return Column(
-            children: [
-              BasicInformationsWidget(weatherData),
-              const SizedBox(height: 30),
-              AdditionalInformationsWidget(weatherData),
-            ],
+          return CustomCardWidget(
+            height: MediaQuery.of(context).orientation == Orientation.landscape
+                ? MediaQuery.of(context).size.height * 0.6
+                : MediaQuery.of(context).size.height * 0.5,
+            width: MediaQuery.of(context).size.width * 0.6,
+            child: PageView(
+              children: [
+                BasicInformationsWidget(weatherData),
+                AdditionalInformationsWidget(weatherData),
+              ],
+            ),
           );
         } else if (weatherDataResult.connectionState ==
             ConnectionState.waiting) {

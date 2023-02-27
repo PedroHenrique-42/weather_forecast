@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:weather_forecast/components/custom_card_widget.dart';
 import 'package:weather_forecast/models/weather_model.dart';
 
 class BasicInformationsWidget extends StatelessWidget {
@@ -33,33 +32,29 @@ class BasicInformationsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCardWidget(
-      height: 300,
-      width: MediaQuery.of(context).size.width * 0.5,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Text(
-            "${weatherData.localName}",
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          SizedBox(
-            height: 150,
-            width: 150,
-            child: Lottie.asset(
-              getIcon(
-                weatherData.iconId.toString(),
-                weatherData.weatherState.toString(),
-              ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Text(
+          "${weatherData.localName}",
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+        SizedBox(
+          height: 150,
+          width: 150,
+          child: Lottie.asset(
+            getIcon(
+              weatherData.iconId.toString(),
+              weatherData.weatherState.toString(),
             ),
           ),
-          Text(
-            "${weatherData.temperature}°C",
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-        ],
-      ),
+        ),
+        Text(
+          "${weatherData.temperature}°C",
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+      ],
     );
   }
 }

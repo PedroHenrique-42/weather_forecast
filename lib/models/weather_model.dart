@@ -1,4 +1,4 @@
-class CurrentWeather {
+class WeatherModel {
   String? weatherState;
   String? description;
   double? temperature;
@@ -7,8 +7,9 @@ class CurrentWeather {
   int? humidity;
   String? iconId;
   String? localName;
+  DateTime? dateTime;
 
-  CurrentWeather({
+  WeatherModel({
     this.weatherState,
     this.description,
     this.temperature,
@@ -17,9 +18,10 @@ class CurrentWeather {
     this.humidity,
     this.iconId,
     this.localName,
+    this.dateTime,
   });
 
-  CurrentWeather.fromJson(Map<String, dynamic> weatherData) {
+  WeatherModel.fromJson(Map<String, dynamic> weatherData) {
     weatherState = weatherData["weather"][0]["main"];
     description = weatherData["weather"][0]["description"];
     temperature = weatherData["main"]["temp"];
@@ -29,4 +31,17 @@ class CurrentWeather {
     iconId = weatherData["weather"][0]["icon"];
     localName = weatherData["name"];
   }
+
+  WeatherModel.fromJsonForecast(Map<String, dynamic> weatherData) {
+    weatherState = weatherData["weather"][0]["main"];
+    description = weatherData["weather"][0]["description"];
+    temperature = weatherData["main"]["temp"];
+    tempMin = weatherData["main"]["temp_min"];
+    tempMax = weatherData["main"]["temp_max"];
+    humidity = weatherData["main"]["humidity"];
+    iconId = weatherData["weather"][0]["icon"];
+    localName = weatherData["name"];
+    dateTime = DateTime.parse(weatherData["dt_txt"]);
+  }
+
 }

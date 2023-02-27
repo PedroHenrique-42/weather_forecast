@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:weather_forecast/exceptions/local_not_found_exception.dart';
-import 'package:weather_forecast/models/current_weather.dart';
+import 'package:weather_forecast/models/weather_model.dart';
 
 class WeatherForecastApiService {
-  Future<List<CurrentWeather>?> getWeatherForecast(String? location) async {
+  Future<List<WeatherModel>?> getWeatherForecast(String? location) async {
     Uri uri = Uri.parse(
       "https://api.openweathermap.org/data/2.5/forecast?q=$location&units=metric&lang=pt_br&appid=367f9277611c3063a6bc21469f096615",
     );
@@ -13,28 +13,30 @@ class WeatherForecastApiService {
 
     Map<String, dynamic> weatherData = jsonDecode(response.body);
 
-    if (response.statusCode == 404) {
-      throw LocalNotFoundException();
-    }
+    if (response.statusCode == 200) {
+      List<WeatherModel>? weatherForecast = [];
 
-    List<CurrentWeather>? weatherForecast = [];
+      for (int i = 0; i < weatherData["list"].length; i++) {
+        DateTime currentListDay =
+            DateTime.parse(weatherData["list"][i]["dt_txt"]);
 
-    for (int i = 0; i < weatherData["list"].length; i++) {
-      DateTime currentListDay =
-          DateTime.parse(weatherData["list"][i]["dt_txt"]);
+        if (i == 0) {
+          continue;
+        }
 
-      if (i == 0) {
-        continue;
+        DateTime lastListDay =
+            DateTime.parse(weatherData["list"][i - 1]["dt_txt"]);
+
+        if (currentListDay.day != lastListDay.day) {
+          weatherForecast.add(
+            WeatherModel.fromJsonForecast(weatherData["list"][i]),
+          );
+        }
       }
 
-      DateTime lastListDay =
-      DateTime.parse(weatherData["list"][i - 1]["dt_txt"]);
-
-      if (currentListDay.day != lastListDay.day) {
-        weatherForecast.add(CurrentWeather.fromJson(weatherData["list"][i]));
-      }
+      return weatherForecast;
     }
 
-    return weatherForecast;
+    throw LocalNotFoundException();
   }
 }

@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:weather_forecast/components/local_not_found.dart';
-import 'package:weather_forecast/components/weather_informations/additional_informations_card.dart';
-import 'package:weather_forecast/components/weather_informations/basic_informations_card.dart';
-import 'package:weather_forecast/models/current_weather.dart';
+import 'package:weather_forecast/models/weather_model.dart';
 import 'package:weather_forecast/providers/weather_data_provider.dart';
-import 'package:weather_forecast/services/current_weather_api_service.dart';
 import 'package:weather_forecast/services/weather_forecast_api_service.dart';
 import 'package:weather_forecast/utils/show_dialog.dart';
 
-class WeatherForecastInformations extends StatefulWidget {
-  const WeatherForecastInformations({Key? key}) : super(key: key);
+import '../custom_card_widget.dart';
+
+class WeatherForecastWidget extends StatefulWidget {
+  const WeatherForecastWidget({Key? key}) : super(key: key);
 
   @override
-  State<WeatherForecastInformations> createState() => _WeatherForecastInformationsState();
+  State<WeatherForecastWidget> createState() => _WeatherForecastWidgetState();
 }
 
-class _WeatherForecastInformationsState extends State<WeatherForecastInformations> {
-  Future<List<CurrentWeather>?> getWeatherForecast() async {
-    List<CurrentWeather>? weatherForecast;
+class _WeatherForecastWidgetState extends State<WeatherForecastWidget> {
+  Future<List<WeatherModel>?> getWeatherForecast() async {
+    List<WeatherModel>? weatherForecast;
 
     weatherForecast = await WeatherForecastApiService().getWeatherForecast(
       Provider.of<WeatherDataProvider>(context).locationName ?? "Brasil",
@@ -34,28 +31,42 @@ class _WeatherForecastInformationsState extends State<WeatherForecastInformation
     return FutureBuilder(
       future: getWeatherForecast(),
       builder: (context, weatherDataResult) {
-        List<CurrentWeather>? weatherData = weatherDataResult.data;
+        List<WeatherModel>? weatherData = weatherDataResult.data;
 
         if (weatherDataResult.connectionState == ConnectionState.done &&
             weatherData != null) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(weatherData[0].temperature.toString()),
-              Text(weatherData[1].temperature.toString()),
-              Text(weatherData[2].temperature.toString()),
-              Text(weatherData[3].temperature.toString()),
-              Text(weatherData[4].temperature.toString()),
-            ]
+          return CustomCardWidget(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      "${weatherData[0].dateTime?.weekday == 2 ? "S" : ""}\n"
+                      "${weatherData[0].temperature.toString()}",
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      "${weatherData[1].dateTime?.weekday == 3 ? "T" : ""}\n"
+                      "${weatherData[1].temperature.toString()}",
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      "${weatherData[2].dateTime?.weekday == 4 ? "Q" : ""}\n"
+                      "${weatherData[2].temperature.toString()}",
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      "${weatherData[3].dateTime?.weekday == 5 ? "Q" : ""}\n"
+                      "${weatherData[3].temperature.toString()}",
+                      textAlign: TextAlign.center,
+                    ),
+                  ]),
+            ),
           );
         } else if (weatherDataResult.connectionState ==
             ConnectionState.waiting) {
-          return const SizedBox(
-            height: 300,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+          return const SizedBox();
         } else {
           SchedulerBinding.instance.addPostFrameCallback(
             (_) {
