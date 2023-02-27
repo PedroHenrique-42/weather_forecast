@@ -25,39 +25,16 @@ class _MainScreenState extends State<MainScreen> {
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  if (MediaQuery.of(context).orientation ==
-                      Orientation.landscape)
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.10),
-                  const SearchBarWidget(),
-                  if (MediaQuery.of(context).orientation ==
-                      Orientation.landscape)
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.10),
-                  const WeatherInformationsWidget(),
-                  if (MediaQuery.of(context).orientation ==
-                      Orientation.landscape)
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.10),
-                  const WeatherForecastWidget(),
+                children: const [
+                  SearchBarWidget(),
+                  WeatherInformationsWidget(),
+                  WeatherForecastWidget(),
                 ],
               ),
             ),
           ),
         ),
       ),
-      // bottomSheet: Container(
-      //   alignment: Alignment.center,
-      //   height: 25,
-      //   width: double.infinity,
-      //   color: const Color.fromRGBO(103, 103, 103, 1),
-      //   child: const Text(
-      //     "Desenvolvido por: Pedro Ferezin \u00a9",
-      //     style: TextStyle(
-      //       color: Colors.white,
-      //       fontSize: 12,
-      //       fontStyle: FontStyle.italic,
-      //     ),
-      //   ),
-      // ),
     );
   }
 }

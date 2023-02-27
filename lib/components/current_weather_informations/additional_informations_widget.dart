@@ -12,35 +12,22 @@ class AdditionalInformationsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Row(
-          children: [
-            const Icon(Icons.bookmark_added_rounded, color: Colors.blue),
-            Text(
-              " Temperatura mínima: ${weatherData.tempMin}°C",
-              style: const TextStyle(fontSize: 13),
-            ),
-          ],
+        Text(
+          "Sensação térmica: ${weatherData.feelsLike!.toInt()}°C",
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
-        Row(
-          children: [
-            const Icon(Icons.bookmark_remove_rounded, color: Colors.blue),
-            Text(
-              " Temperatura máxima: ${weatherData.tempMax}°C",
-              style: const TextStyle(fontSize: 13),
-            ),
-          ],
+        Text(
+          "Humidade: ${weatherData.humidity}%",
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
-        Row(
-          children: [
-            const Icon(Icons.water_drop, color: Colors.blue),
-            Text(
-              " Humidade: ${weatherData.humidity}%",
-              style: const TextStyle(fontSize: 13),
-            ),
-          ],
+        Text(
+          weatherData.description!.replaceFirst(
+            weatherData.description![0],
+            weatherData.description![0].toUpperCase(),
+          ),
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
       ],
     );

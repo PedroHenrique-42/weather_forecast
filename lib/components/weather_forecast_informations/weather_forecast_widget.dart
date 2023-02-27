@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_forecast/models/weather_model.dart';
 import 'package:weather_forecast/providers/weather_data_provider.dart';
 import 'package:weather_forecast/services/weather_forecast_api_service.dart';
-import 'package:weather_forecast/utils/show_dialog.dart';
+import 'package:weather_forecast/utils/get_icon_asset.dart';
+import 'package:weather_forecast/utils/get_week_day.dart';
 
 import '../custom_card_widget.dart';
 
-class WeatherForecastWidget extends StatefulWidget {
+class WeatherForecastWidget extends StatelessWidget {
   const WeatherForecastWidget({Key? key}) : super(key: key);
 
-  @override
-  State<WeatherForecastWidget> createState() => _WeatherForecastWidgetState();
-}
-
-class _WeatherForecastWidgetState extends State<WeatherForecastWidget> {
-  Future<List<WeatherModel>?> getWeatherForecast() async {
+  Future<List<WeatherModel>?> getWeatherForecast(BuildContext context) async {
     List<WeatherModel>? weatherForecast;
 
     weatherForecast = await WeatherForecastApiService().getWeatherForecast(
@@ -29,7 +25,7 @@ class _WeatherForecastWidgetState extends State<WeatherForecastWidget> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getWeatherForecast(),
+      future: getWeatherForecast(context),
       builder: (context, weatherDataResult) {
         List<WeatherModel>? weatherData = weatherDataResult.data;
 
@@ -39,42 +35,33 @@ class _WeatherForecastWidgetState extends State<WeatherForecastWidget> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                      "${weatherData[0].dateTime?.weekday == 2 ? "S" : ""}\n"
-                      "${weatherData[0].temperature.toString()}",
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      "${weatherData[1].dateTime?.weekday == 3 ? "T" : ""}\n"
-                      "${weatherData[1].temperature.toString()}",
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      "${weatherData[2].dateTime?.weekday == 4 ? "Q" : ""}\n"
-                      "${weatherData[2].temperature.toString()}",
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      "${weatherData[3].dateTime?.weekday == 5 ? "Q" : ""}\n"
-                      "${weatherData[3].temperature.toString()}",
-                      textAlign: TextAlign.center,
-                    ),
-                  ]),
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: weatherData.map((forecastDataElement) {
+                  return Column(
+                    children: [
+                      Text(
+                        GetWeekDay.get(forecastDataElement.dateTime!.weekday),
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                      SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: Lottie.asset(
+                          GetIconAsset.getIcon(
+                            forecastDataElement.iconId.toString(),
+                            forecastDataElement.weatherState.toString(),
+                          ),
+                        ),
+                      ),
+                      Text("${forecastDataElement.temperature!.toInt()}°C")
+                    ],
+                  );
+                }).toList(),
+              ),
             ),
           );
-        } else if (weatherDataResult.connectionState ==
-            ConnectionState.waiting) {
-          return const SizedBox();
         } else {
-          SchedulerBinding.instance.addPostFrameCallback(
-            (_) {
-              ShowDialog.show(context, weatherDataResult.error.toString());
-            },
-          );
-
-          return const Text("Local não encontrado");
+          return const SizedBox();
         }
       },
     );

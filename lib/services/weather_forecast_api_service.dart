@@ -20,14 +20,7 @@ class WeatherForecastApiService {
         DateTime currentListDay =
             DateTime.parse(weatherData["list"][i]["dt_txt"]);
 
-        if (i == 0) {
-          continue;
-        }
-
-        DateTime lastListDay =
-            DateTime.parse(weatherData["list"][i - 1]["dt_txt"]);
-
-        if (currentListDay.day != lastListDay.day) {
+        if (currentListDay.hour.toInt() == 12) {
           weatherForecast.add(
             WeatherModel.fromJsonForecast(weatherData["list"][i]),
           );
