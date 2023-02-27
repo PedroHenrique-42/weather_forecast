@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:weather_forecast/components/local_not_found.dart';
-import 'package:weather_forecast/components/weather_informations/additional_informations_card.dart';
-import 'package:weather_forecast/components/weather_informations/basic_informations_card.dart';
-import 'package:weather_forecast/models/current_weather.dart';
+import 'package:weather_forecast/components/local_not_found_widget.dart';
+import 'package:weather_forecast/components/weather_informations/additional_informations_widget.dart';
+import 'package:weather_forecast/components/weather_informations/basic_informations_widget.dart';
+import 'package:weather_forecast/models/weather_model.dart';
 import 'package:weather_forecast/providers/weather_data_provider.dart';
 import 'package:weather_forecast/services/current_weather_api_service.dart';
 import 'package:weather_forecast/utils/show_dialog.dart';
 
-class WeatherInformations extends StatefulWidget {
-  const WeatherInformations({Key? key}) : super(key: key);
+class WeatherInformationsWidget extends StatefulWidget {
+  const WeatherInformationsWidget({Key? key}) : super(key: key);
 
   @override
-  State<WeatherInformations> createState() => _WeatherInformationsState();
+  State<WeatherInformationsWidget> createState() => _WeatherInformationsWidgetState();
 }
 
-class _WeatherInformationsState extends State<WeatherInformations> {
-  Future<CurrentWeather?> getWeatherData() async {
-    CurrentWeather? weatherData;
+class _WeatherInformationsWidgetState extends State<WeatherInformationsWidget> {
+  Future<WeatherModel?> getWeatherData() async {
+    WeatherModel? weatherData;
 
     weatherData = await CurrentWeatherApiService().getCurrentWeather(
       Provider.of<WeatherDataProvider>(context).locationName ?? "Brasil",
@@ -33,15 +32,15 @@ class _WeatherInformationsState extends State<WeatherInformations> {
     return FutureBuilder(
       future: getWeatherData(),
       builder: (context, weatherDataResult) {
-        CurrentWeather? weatherData = weatherDataResult.data;
+        WeatherModel? weatherData = weatherDataResult.data;
 
         if (weatherDataResult.connectionState == ConnectionState.done &&
             weatherData != null) {
           return Column(
             children: [
-              BasicInformationsCard(weatherData),
+              BasicInformationsWidget(weatherData),
               const SizedBox(height: 30),
-              AdditionalInformationsCard(weatherData),
+              AdditionalInformationsWidget(weatherData),
             ],
           );
         } else if (weatherDataResult.connectionState ==
@@ -53,7 +52,7 @@ class _WeatherInformationsState extends State<WeatherInformations> {
             ),
           );
         } else if (weatherDataResult.connectionState == ConnectionState.none) {
-          return Text("None");
+          return const Text("None");
         } else {
           SchedulerBinding.instance.addPostFrameCallback(
             (_) {
@@ -61,7 +60,7 @@ class _WeatherInformationsState extends State<WeatherInformations> {
             },
           );
 
-          return const LocalNotFound();
+          return const LocalNotFoundWidget();
         }
       },
     );

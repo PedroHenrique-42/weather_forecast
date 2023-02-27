@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:weather_forecast/components/custom_card.dart';
-import 'package:weather_forecast/models/current_weather.dart';
+import 'package:weather_forecast/components/custom_card_widget.dart';
+import 'package:weather_forecast/models/weather_model.dart';
 
-class AdditionalInformationsCard extends StatelessWidget {
-  final CurrentWeather weatherData;
+class AdditionalInformationsWidget extends StatelessWidget {
+  final WeatherModel weatherData;
 
-  const AdditionalInformationsCard(
+  const AdditionalInformationsWidget(
     this.weatherData, {
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return CustomCard(
+    return CustomCardWidget(
       height: 150,
       width: MediaQuery.of(context).size.width * 0.9,
       child: Padding(
@@ -39,15 +39,6 @@ class AdditionalInformationsCard extends StatelessWidget {
                 ),
               ],
             ),
-            // Row(
-            //   children: [
-            //     const Icon(Icons.feed, color: Colors.blue),
-            //     Text(
-            //       " Sensação térmica: ${weatherData.feelsLike}°C",
-            //       style: Theme.of(context).textTheme.headlineSmall,
-            //     ),
-            //   ],
-            // ),
             Row(
               children: [
                 const Icon(Icons.water_drop, color: Colors.blue),
