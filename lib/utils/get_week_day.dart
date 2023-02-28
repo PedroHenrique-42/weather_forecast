@@ -1,8 +1,6 @@
 class GetWeekDay {
   static get(int weekDayNumber) {
     switch (weekDayNumber) {
-      case 0:
-        return "D";
       case 1:
         return "S";
       case 2:
@@ -13,8 +11,10 @@ class GetWeekDay {
         return "Q";
       case 5:
         return "S";
-      default:
+      case 6:
         return "S";
+      default:
+        return "D";
     }
   }
 }

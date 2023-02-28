@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:weather_forecast/components/current_weather_informations/additional_informations_widget.dart';
 import 'package:weather_forecast/components/current_weather_informations/basic_informations_widget.dart';
@@ -9,19 +8,18 @@ import 'package:weather_forecast/components/custom_card_widget.dart';
 import 'package:weather_forecast/components/local_not_found_widget.dart';
 import 'package:weather_forecast/exceptions/local_not_found_exception.dart';
 import 'package:weather_forecast/models/weather_model.dart';
-import 'package:weather_forecast/providers/weather_data_provider.dart';
-import 'package:weather_forecast/services/current_weather_api_service.dart';
 import 'package:weather_forecast/utils/show_dialog.dart';
 
 class WeatherInformationsWidget extends StatelessWidget {
-  const WeatherInformationsWidget({Key? key}) : super(key: key);
+  final Future<WeatherModel?> future;
+
+  const WeatherInformationsWidget({Key? key, required this.future}) : super(key: key);
 
   Future<WeatherModel?> getWeatherData(BuildContext context) async {
     WeatherModel? weatherData;
+
     try {
-      weatherData = await CurrentWeatherApiService().getCurrentWeather(
-        Provider.of<WeatherDataProvider>(context).locationName ?? "Brasil",
-      );
+      weatherData = await future;
 
       return weatherData;
     } on IOException {

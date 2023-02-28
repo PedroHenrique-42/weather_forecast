@@ -16,8 +16,6 @@ class SearchBarWidget extends StatelessWidget {
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(18),
           hintText: "Pesquise um local",
-          filled: true,
-          fillColor: const Color.fromRGBO(233, 233, 233, 1),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide.none,

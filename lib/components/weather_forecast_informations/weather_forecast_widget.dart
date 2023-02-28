@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 import 'package:weather_forecast/models/weather_model.dart';
-import 'package:weather_forecast/providers/weather_data_provider.dart';
-import 'package:weather_forecast/services/weather_forecast_api_service.dart';
 import 'package:weather_forecast/utils/get_icon_asset.dart';
 import 'package:weather_forecast/utils/get_week_day.dart';
 
 import '../custom_card_widget.dart';
 
 class WeatherForecastWidget extends StatelessWidget {
-  const WeatherForecastWidget({Key? key}) : super(key: key);
+  final Future<List<WeatherModel>?> future;
+
+  const WeatherForecastWidget({Key? key, required this.future})
+      : super(key: key);
 
   Future<List<WeatherModel>?> getWeatherForecast(BuildContext context) async {
-    List<WeatherModel>? weatherForecast;
+    List<WeatherModel>? weatherForecastData;
 
-    weatherForecast = await WeatherForecastApiService().getWeatherForecast(
-      Provider.of<WeatherDataProvider>(context).locationName ?? "Brasil",
-    );
+    weatherForecastData = await future;
 
-    return weatherForecast;
+    return weatherForecastData;
   }
 
   @override

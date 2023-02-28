@@ -2,9 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:weather_forecast/components/current_weather_informations/weather_informations_widget.dart';
 import 'package:weather_forecast/components/search_bar/search_bar_widget.dart';
 import 'package:weather_forecast/components/weather_forecast_informations/weather_forecast_widget.dart';
+import 'package:weather_forecast/models/weather_model.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  final Future<WeatherModel?> currentWeatherFuture;
+  final Future<List<WeatherModel>?> weatherForecastFuture;
+
+  const MainScreen({
+    Key? key,
+    required this.currentWeatherFuture,
+    required this.weatherForecastFuture,
+  }) : super(key: key);
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -25,10 +33,11 @@ class _MainScreenState extends State<MainScreen> {
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: const [
-                  SearchBarWidget(),
-                  WeatherInformationsWidget(),
-                  WeatherForecastWidget(),
+                children: [
+                  const SearchBarWidget(),
+                  WeatherInformationsWidget(
+                      future: widget.currentWeatherFuture),
+                  WeatherForecastWidget(future: widget.weatherForecastFuture),
                 ],
               ),
             ),

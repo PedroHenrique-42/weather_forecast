@@ -14,13 +14,22 @@ class WeatherForecastApiService {
     Map<String, dynamic> weatherData = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
-      List<WeatherModel>? weatherForecast = [];
+      List<WeatherModel> weatherForecast = [];
 
       for (int i = 0; i < weatherData["list"].length; i++) {
-        DateTime currentListDay =
-            DateTime.parse(weatherData["list"][i]["dt_txt"]);
+        DateTime currentListDay = DateTime.parse(
+          weatherData["list"][i]["dt_txt"],
+        );
 
-        if (currentListDay.hour.toInt() == 12) {
+        if (i == 0) {
+          continue;
+        }
+
+        DateTime lastListDay = DateTime.parse(
+          weatherData["list"][i - 1]["dt_txt"],
+        );
+
+        if (currentListDay.day != lastListDay.day) {
           weatherForecast.add(
             WeatherModel.fromJsonForecast(weatherData["list"][i]),
           );
