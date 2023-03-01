@@ -4,7 +4,7 @@ import 'package:weather_forecast/components/search_bar/search_bar_widget.dart';
 import 'package:weather_forecast/components/weather_forecast_informations/weather_forecast_widget.dart';
 import 'package:weather_forecast/models/weather_model.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends StatelessWidget {
   final Future<WeatherModel?> currentWeatherFuture;
   final Future<List<WeatherModel>?> weatherForecastFuture;
 
@@ -14,11 +14,6 @@ class MainScreen extends StatefulWidget {
     required this.weatherForecastFuture,
   }) : super(key: key);
 
-  @override
-  State<MainScreen> createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +31,9 @@ class _MainScreenState extends State<MainScreen> {
                 children: [
                   const SearchBarWidget(),
                   WeatherInformationsWidget(
-                      future: widget.currentWeatherFuture),
-                  WeatherForecastWidget(future: widget.weatherForecastFuture),
+                    future: currentWeatherFuture,
+                  ),
+                  WeatherForecastWidget(future: weatherForecastFuture),
                 ],
               ),
             ),

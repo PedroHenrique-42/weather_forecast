@@ -61,6 +61,7 @@ class WeatherInformationsWidget extends StatelessWidget {
                         ? MediaQuery.of(context).size.height * 0.6
                         : MediaQuery.of(context).size.height * 0.5,
                 width: MediaQuery.of(context).size.width * 0.6,
+                // child: ListView(),
                 child: PageView(
                   controller: pageViewController,
                   children: [
@@ -83,6 +84,8 @@ class WeatherInformationsWidget extends StatelessWidget {
               ),
             ],
           );
+
+
         } else if (weatherDataResult.connectionState ==
             ConnectionState.waiting) {
           return const SizedBox(

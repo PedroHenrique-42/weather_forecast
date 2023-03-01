@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:mockito/annotations.dart';
 import 'package:weather_forecast/exceptions/local_not_found_exception.dart';
 import 'package:weather_forecast/models/weather_model.dart';
 
+@GenerateMocks([WeatherForecastApiService])
 class WeatherForecastApiService {
   Future<List<WeatherModel>?> getWeatherForecast(String? location) async {
     Uri uri = Uri.parse(
