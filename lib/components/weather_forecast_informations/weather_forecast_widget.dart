@@ -13,9 +13,12 @@ class WeatherForecastWidget extends StatelessWidget {
   Future<List<WeatherModel>?> getWeatherForecast(BuildContext context) async {
     List<WeatherModel>? weatherForecastData;
 
-    weatherForecastData = await future;
-
-    return weatherForecastData;
+    try {
+      weatherForecastData = await future;
+      return weatherForecastData;
+    } catch (error) {
+      print(error);
+    }
   }
 
   @override
@@ -28,6 +31,7 @@ class WeatherForecastWidget extends StatelessWidget {
         if (weatherDataResult.connectionState == ConnectionState.done &&
             weatherForecastData != null) {
           return CustomCardWidget(
+            key: const Key("WeatherForecastCard"),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -39,7 +43,7 @@ class WeatherForecastWidget extends StatelessWidget {
             ),
           );
         } else {
-          return const SizedBox();
+          return const SizedBox(key: Key("WeatherForecastSizedBox"));
         }
       },
     );
