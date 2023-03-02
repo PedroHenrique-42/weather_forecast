@@ -7,38 +7,31 @@ import 'package:weather_forecast/models/weather_model.dart';
 
 @GenerateMocks([WeatherForecastApiService])
 class WeatherForecastApiService {
-  Future<List<WeatherModel>?> getWeatherForecast(String? location) async {
-    Uri uri = Uri.parse(
-      "https://api.openweathermap.org/data/2.5/forecast?q=$location&units=metric&lang=pt_br&appid=367f9277611c3063a6bc21469f096615",
-    );
+  final String baseUrl =
+      "https://api.openweathermap.org/data/2.5/forecast?q=%location&units=metric&lang=pt_br&appid=367f9277611c3063a6bc21469f096615";
+
+  Future<List<WeatherModel>?> getWeatherForecast(String location) async {
+    Uri uri = Uri.parse(baseUrl.replaceAll("%location", location));
     http.Response response = await http.get(uri);
 
-    Map<String, dynamic> weatherData = jsonDecode(response.body);
+    Map<String, dynamic> apiResult = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
-      List<WeatherModel> weatherForecast = [];
+      List weatherDataList = apiResult["list"];
+      Map<int, WeatherModel> weatherForecast = {};
 
-      for (int i = 0; i < weatherData["list"].length; i++) {
-        DateTime currentListDay = DateTime.parse(
-          weatherData["list"][i]["dt_txt"],
-        );
+      for (var currentForecast in weatherDataList) {
+        DateTime forecastDate = DateTime.parse(currentForecast["dt_txt"]);
 
-        if (i == 0) {
-          continue;
-        }
-
-        DateTime lastListDay = DateTime.parse(
-          weatherData["list"][i - 1]["dt_txt"],
-        );
-
-        if (currentListDay.day != lastListDay.day) {
-          weatherForecast.add(
-            WeatherModel.fromJsonForecast(weatherData["list"][i]),
+        if (forecastDate.day != DateTime.now().day &&
+            !weatherForecast.containsKey(forecastDate.day)) {
+          weatherForecast[forecastDate.day] = WeatherModel.fromJsonForecast(
+            currentForecast,
           );
         }
       }
 
-      return weatherForecast;
+      return weatherForecast.entries.map((forecast) => forecast.value).toList();
     }
 
     throw LocalNotFoundException();

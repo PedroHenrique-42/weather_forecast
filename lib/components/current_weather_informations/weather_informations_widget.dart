@@ -20,7 +20,6 @@ class WeatherInformationsWidget extends StatelessWidget {
 
     try {
       weatherData = await future;
-
       return weatherData;
     } on IOException {
       await ShowDialog.show(
@@ -75,8 +74,9 @@ class WeatherInformationsWidget extends StatelessWidget {
                 child: SmoothPageIndicator(
                   controller: pageViewController,
                   count: 2,
-                  effect: const JumpingDotEffect(
-                    activeDotColor: Colors.lightBlueAccent,
+                  effect: JumpingDotEffect(
+                    dotColor: Colors.black45,
+                    activeDotColor: Theme.of(context).colorScheme.primary,
                     dotWidth: 10,
                     dotHeight: 10,
                   ),

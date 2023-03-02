@@ -27,7 +27,7 @@ class SuffixIconWidget extends StatelessWidget {
         ).setLocationName(locationName.text);
         FocusScope.of(context).unfocus();
       },
-      icon: const Icon(Icons.search, color: Colors.black),
+      icon: const Icon(Icons.search),
     );
   }
 }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:weather_forecast/components/weather_forecast_informations/weather_forecast_card_widget.dart';
 import 'package:weather_forecast/models/weather_model.dart';
-import 'package:weather_forecast/utils/get_icon_asset.dart';
-import 'package:weather_forecast/utils/get_week_day.dart';
 
 import '../custom_card_widget.dart';
 
@@ -25,35 +23,17 @@ class WeatherForecastWidget extends StatelessWidget {
     return FutureBuilder(
       future: getWeatherForecast(context),
       builder: (context, weatherDataResult) {
-        List<WeatherModel>? weatherData = weatherDataResult.data;
+        List<WeatherModel>? weatherForecastData = weatherDataResult.data;
 
         if (weatherDataResult.connectionState == ConnectionState.done &&
-            weatherData != null) {
+            weatherForecastData != null) {
           return CustomCardWidget(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: weatherData.map((forecastDataElement) {
-                  return Column(
-                    children: [
-                      Text(
-                        GetWeekDay.get(forecastDataElement.dateTime!.weekday),
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                      SizedBox(
-                        height: 30,
-                        width: 30,
-                        child: Lottie.asset(
-                          GetIconAsset.getIcon(
-                            forecastDataElement.iconId.toString(),
-                            forecastDataElement.weatherState.toString(),
-                          ),
-                        ),
-                      ),
-                      Text("${forecastDataElement.temperature!.toInt()}°C")
-                    ],
-                  );
+                children: weatherForecastData.map((weatherData) {
+                  return WeatherForecastCardWidget(weatherData: weatherData);
                 }).toList(),
               ),
             ),

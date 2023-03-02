@@ -33,7 +33,8 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: mainTheme,
+      theme: mainLightTheme,
+      darkTheme: mainDarkTheme,
       home: MainScreen(
         currentWeatherFuture: currentWeatherFuture,
         weatherForecastFuture: weatherForecastFuture,
