@@ -10,9 +10,7 @@ class ShowSnackBar {
         backgroundColor: Colors.red,
         content: Text(
           content,
-          style: const TextStyle(
-            fontSize: 18,
-          ),
+          style: Theme.of(context).textTheme.titleMedium,
         ),
       ),
     );
