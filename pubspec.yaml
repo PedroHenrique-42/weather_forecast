@@ -39,6 +39,7 @@ flutter:
     - assets/animations/snow_animation.json
     - assets/animations/sun_animation.json
     - assets/animations/thunderstorm_animation.json
+    - assets/images/app_icon.png
 
 # Fonts
   fonts:

@@ -4,8 +4,6 @@ import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_forecast/components/current_weather_informations/additional_informations_widget.dart';
 import 'package:weather_forecast/components/current_weather_informations/weather_informations_widget.dart';
-import 'package:weather_forecast/components/custom_card_widget.dart';
-import 'package:weather_forecast/components/weather_forecast_informations/weather_forecast_card_widget.dart';
 import 'package:weather_forecast/data/weather_data.dart';
 import 'package:weather_forecast/models/weather_model.dart';
 import 'package:weather_forecast/providers/weather_data_provider.dart';

@@ -13,12 +13,8 @@ class WeatherForecastWidget extends StatelessWidget {
   Future<List<WeatherModel>?> getWeatherForecast(BuildContext context) async {
     List<WeatherModel>? weatherForecastData;
 
-    try {
-      weatherForecastData = await future;
-      return weatherForecastData;
-    } catch (error) {
-      print(error);
-    }
+    weatherForecastData = await future;
+    return weatherForecastData;
   }
 
   @override
