@@ -23,7 +23,8 @@ class WeatherForecastApiService {
       for (var currentForecast in weatherDataList) {
         DateTime forecastDate = DateTime.parse(currentForecast["dt_txt"]);
 
-        if (forecastDate.day != DateTime.now().day &&
+        if (weatherForecast.length < 5 &&
+            forecastDate.day != DateTime.now().day &&
             !weatherForecast.containsKey(forecastDate.day)) {
           weatherForecast[forecastDate.day] = WeatherModel.fromJsonForecast(
             currentForecast,
